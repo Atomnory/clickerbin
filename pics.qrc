@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>pics/marketeer.jpg</file>
+        <file>pics/hometown.jpg</file>
+        <file>pics/hometownActive.jpg</file>
+        <file>pics/man.jpg</file>
+        <file>pics/manActive.jpg</file>
+        <file>pics/hometownActive2.jpg</file>
+        <file>pics/hometownActive3.jpg</file>
+        <file>pics/farm.jpg</file>
+        <file>pics/farmActive3.jpg</file>
+        <file>pics/market.jpg</file>
+        <file>pics/marketActive2.jpg</file>
+        <file>pics/mine2.jpg</file>
+        <file>pics/mineActive.jpg</file>
+        <file>pics/stable.jpg</file>
+        <file>pics/stableActive.jpg</file>
+    </qresource>
+</RCC>
