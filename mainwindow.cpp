@@ -13,7 +13,8 @@
 static FarmingSlot farm(10, 100, 2);
 static FarmingSlot stable(100, 1000, 3);
 static FarmingSlot mine(1000, 10000, 4);
-static FarmingSlot market(10000, 1000000, 5);
+static FarmingSlot townhall(10000, 1000000, 5);
+static FarmingSlot market(100000, 10000000, 6);
 QFile saves("save.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -24,47 +25,47 @@ MainWindow::MainWindow(QWidget *parent) :
                                    //start loading saves
     if(saves.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        int farmWork = 0, farmHouse = 0, stabWork = 0, stabHouse = 0, markWork = 0, markHouse = 0, mineWork = 0, mineHouse = 0;
-        int farmPriceH = 0, stablePriceH = 0, marketPriceH = 0, minePriceH = 0;
         int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0;
         QString readCashStr = saves.readLine();
+
+        tempCash = readCashStr.toUInt();
+
         QString readWorkStr = saves.readLine();
         QString readWorkHouseStr = saves.readLine();
         QString readPriceHouseStr = saves.readLine();
-        tempCash = readCashStr.toInt();
-        farmWork = readWorkStr.toInt();
-        farmHouse = readWorkHouseStr.toInt();
-        farmPriceH = readPriceHouseStr.toInt();
+
+        farm.setWorkers(readWorkStr.toInt());
+        farm.setWorkersHouse(readWorkHouseStr.toInt());
+        farm.setPriceWorkersHouse(readPriceHouseStr.toInt());
+
+
         readWorkStr = saves.readLine();
         readWorkHouseStr = saves.readLine();
         readPriceHouseStr = saves.readLine();
-        stabWork = readWorkStr.toInt();
-        stabHouse = readWorkHouseStr.toInt();
-        stablePriceH = readPriceHouseStr.toInt(); 
+        stable.setWorkers(readWorkStr.toInt());
+        stable.setWorkersHouse(readWorkHouseStr.toInt());
+        stable.setPriceWorkersHouse(readPriceHouseStr.toInt());
+
         readWorkStr = saves.readLine();
         readWorkHouseStr = saves.readLine();
         readPriceHouseStr = saves.readLine();
-        mineWork = readWorkStr.toInt();
-        mineHouse = readWorkHouseStr.toInt();
-        minePriceH = readPriceHouseStr.toInt();
+        mine.setWorkers(readWorkStr.toInt());
+        mine.setWorkersHouse(readWorkHouseStr.toInt());
+        mine.setPriceWorkersHouse(readPriceHouseStr.toInt());
+
         readWorkStr = saves.readLine();
         readWorkHouseStr = saves.readLine();
         readPriceHouseStr = saves.readLine();
-        markWork = readWorkStr.toInt();
-        markHouse = readWorkHouseStr.toInt();
-        marketPriceH = readPriceHouseStr.toInt();
-        farm.setWorkers(farmWork);
-        farm.setWorkersHouse(farmHouse);
-        farm.setPriceWorkersHouse(farmPriceH);
-        stable.setWorkers(stabWork);
-        stable.setWorkersHouse(stabHouse);
-        stable.setPriceWorkersHouse(stablePriceH);
-        mine.setWorkers(mineWork);
-        mine.setWorkersHouse(mineHouse);
-        mine.setPriceWorkersHouse(minePriceH);
-        market.setWorkers(markWork);
-        market.setWorkersHouse(markHouse);
-        market.setPriceWorkersHouse(marketPriceH);
+        townhall.setWorkers(readWorkStr.toInt());
+        townhall.setWorkersHouse(readWorkHouseStr.toInt());
+        townhall.setPriceWorkersHouse(readPriceHouseStr.toInt());
+
+        readWorkStr = saves.readLine();
+        readWorkHouseStr = saves.readLine();
+        readPriceHouseStr = saves.readLine();
+        market.setWorkers(readWorkStr.toInt());
+        market.setWorkersHouse(readWorkHouseStr.toInt());
+        market.setPriceWorkersHouse(readPriceHouseStr.toInt());
 
         QString lastTime = saves.readLine();
         year = lastTime.toInt();
@@ -117,67 +118,39 @@ void MainWindow::closeEvent(QCloseEvent *eventClose)
 {                                                       //start saving
     if(saves.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-    QString saveCashStr, saveWorkersStr, saveWorkHouseStr, savePriceHouseStr;
-    int saveCash = tempCash, saveWork = farm.getWorkrers(), saveWHouse = farm.getWorkrersHouse(), savePriceH = farm.getPriceWorkersHouse();
-
-    QString timeNow;
     QDate nowDate(QDate::currentDate());
     QTime nowTime(QTime::currentTime());
 
-    saveCashStr = QString::number(saveCash);
-    saveWorkersStr = QString::number(saveWork);
-    saveWorkHouseStr = QString::number(saveWHouse);
-    savePriceHouseStr = QString::number(savePriceH);
-
     QTextStream writeStream(&saves);
-    writeStream << saveCashStr << endl;
-    writeStream << saveWorkersStr << endl;
-    writeStream << saveWorkHouseStr << endl;
-    writeStream << savePriceHouseStr << endl;
+    writeStream << QString::number(tempCash) << endl;
 
-    saveWork = stable.getWorkrers();
-    saveWHouse = stable.getWorkrersHouse();
-    savePriceH = stable.getPriceWorkersHouse();
-    saveWorkersStr = QString::number(saveWork);
-    saveWorkHouseStr = QString::number(saveWHouse);
-    savePriceHouseStr = QString::number(savePriceH);
-    writeStream << saveWorkersStr << endl;
-    writeStream << saveWorkHouseStr << endl;
-    writeStream << savePriceHouseStr << endl;
+    writeStream << QString::number(farm.getWorkrers()) << endl;
+    writeStream << QString::number(farm.getWorkrersHouse()) << endl;
+    writeStream << QString::number(farm.getPriceWorkersHouse()) << endl;
 
-    saveWork = mine.getWorkrers();
-    saveWHouse = mine.getWorkrersHouse();
-    savePriceH = mine.getPriceWorkersHouse();
-    saveWorkersStr = QString::number(saveWork);
-    saveWorkHouseStr = QString::number(saveWHouse);
-    savePriceHouseStr = QString::number(savePriceH);
-    writeStream << saveWorkersStr << endl;
-    writeStream << saveWorkHouseStr << endl;
-    writeStream << savePriceHouseStr << endl;
+    writeStream << QString::number(stable.getWorkrers()) << endl;
+    writeStream << QString::number(stable.getWorkrersHouse()) << endl;
+    writeStream << QString::number(stable.getPriceWorkersHouse()) << endl;
 
-    saveWork = market.getWorkrers();
-    saveWHouse = market.getWorkrersHouse();
-    savePriceH = market.getPriceWorkersHouse();
-    saveWorkersStr = QString::number(saveWork);
-    saveWorkHouseStr = QString::number(saveWHouse);
-    savePriceHouseStr = QString::number(savePriceH);
-    writeStream << saveWorkersStr << endl;
-    writeStream << saveWorkHouseStr << endl;
-    writeStream << savePriceHouseStr << endl;
+    writeStream << QString::number(mine.getWorkrers()) << endl;
+    writeStream << QString::number(mine.getWorkrersHouse()) << endl;
+    writeStream << QString::number(mine.getPriceWorkersHouse()) << endl;
 
-    timeNow = nowDate.toString("yyyy");
-    writeStream << timeNow << endl;
-    timeNow = nowDate.toString("M");
-    writeStream << timeNow << endl;
-    timeNow = nowDate.toString("d");
-    writeStream << timeNow << endl;
+    writeStream << QString::number(townhall.getWorkrers()) << endl;
+    writeStream << QString::number(townhall.getWorkrersHouse()) << endl;
+    writeStream << QString::number(townhall.getPriceWorkersHouse()) << endl;
 
-    timeNow = nowTime.toString("H");
-    writeStream << timeNow << endl;
-    timeNow = nowTime.toString("m");
-    writeStream << timeNow << endl;
-    timeNow = nowTime.toString("s");
-    writeStream << timeNow << endl;
+    writeStream << QString::number(market.getWorkrers()) << endl;
+    writeStream << QString::number(market.getWorkrersHouse()) << endl;
+    writeStream << QString::number(market.getPriceWorkersHouse()) << endl;
+
+    writeStream << nowDate.toString("yyyy") << endl;
+    writeStream << nowDate.toString("M") << endl;
+    writeStream << nowDate.toString("d") << endl;
+
+    writeStream << nowTime.toString("H") << endl;
+    writeStream << nowTime.toString("m") << endl;
+    writeStream << nowTime.toString("s") << endl;
 
     saves.close();
 
@@ -216,7 +189,8 @@ void MainWindow::calc_Cash_Absence(qint64 difTime)
 {
     int rateCashInSec = 0;
 
-    rateCashInSec = farm.calculateCash() + stable.calculateCash() + market.calculateCash() + mine.calculateCash();
+    rateCashInSec = farm.calculateCash() + stable.calculateCash() + mine.calculateCash() + townhall.calculateCash()
+            + market.calculateCash() ;
     rateCashInSec*= difTime;
     tempCash+= rateCashInSec;
 
@@ -229,7 +203,8 @@ void MainWindow::calculate_Cash()
 {
     int cashInSec = 0;
 
-    cashInSec = farm.calculateCash() + stable.calculateCash() + market.calculateCash() + mine.calculateCash();
+    cashInSec = farm.calculateCash() + stable.calculateCash() + mine.calculateCash()+ townhall.calculateCash()
+            + market.calculateCash();
     tempCash+= cashInSec;
 
 }
@@ -245,6 +220,7 @@ void MainWindow::show_All_Price()
     show_Price_Stable();
     show_Price_Market();
     show_Price_Mine();
+    show_Price_Townhall();
 }
 
 void MainWindow::set_need_Workers()         //функция предупреждает и нейтрализует баг №1.0
@@ -296,7 +272,6 @@ void MainWindow::on_pushButton_fermers_clicked()
 {
     if ((farm.getWorkrersHouse() > 0) && (tempCash >= farm.getPriceWorkers()))
     {
-        QString farmersToShow;
         int farms = 0;
 
         farms = farm.getWorkrers() + 1;
@@ -313,8 +288,6 @@ void MainWindow::on_pushButton_fermersHouse_clicked()
 {
     if ((farm.getWorkrers() >= farm.getNeedWorkrers()) && (tempCash >= farm.getPriceWorkersHouse()))
     {
-        QString farmersHouseToShow;
-
         farm.setWorkersHouse(farm.getWorkrersHouse() + 1);
 
         tempCash-= farm.getPriceWorkersHouse();
@@ -354,7 +327,6 @@ void MainWindow::on_pushButton_horseman_clicked()
 {
     if ((stable.getWorkrersHouse() > 0) && (tempCash >= stable.getPriceWorkers()))
     {
-        QString stablesWorkersToShow;
         int stablesWorkers = 0;
 
         stablesWorkers = stable.getWorkrers() + 1;
@@ -371,7 +343,6 @@ void MainWindow::on_pushButton_stables_clicked()
 {
     if ((stable.getWorkrers() >= stable.getNeedWorkrers()) && (tempCash >= stable.getPriceWorkersHouse()))
     {
-        QString stablesToShow;
         int stables = 0;
 
         stables = stable.getWorkrersHouse() + 1;
@@ -418,7 +389,6 @@ void MainWindow::on_pushButton_mine_clicked()
 {
     if ((mine.getWorkrers() >= mine.getNeedWorkrers()) && (tempCash >= mine.getPriceWorkersHouse()))
     {
-        QString mineToShow;
         int mines = 0;
 
         mines = mine.getWorkrersHouse() + 1;
@@ -437,7 +407,6 @@ void MainWindow::on_pushButton_miner_clicked()
 {
     if ((mine.getWorkrersHouse() > 0) && (tempCash >= mine.getPriceWorkers()))
     {
-        QString mineWorkersToShow;
         int miner = 0;
 
         miner = mine.getWorkrers() + 1;
@@ -470,13 +439,68 @@ void MainWindow::on_pushButton_miner_MAX_clicked()
     }
 }
 
+//========================================Townhall======================================================
+
+void MainWindow::on_pushButton_mayor_clicked()
+{
+    if ((townhall.getWorkrersHouse() > 0) && (tempCash >= townhall.getPriceWorkers()))
+    {
+        int mayor = 0;
+
+        mayor = townhall.getWorkrers() + 1;
+        townhall.setWorkers(mayor);
+
+        tempCash-= townhall.getPriceWorkers();
+        show_Price_Townhall();
+        show_Cash();
+    }
+}
+
+void MainWindow::on_pushButton_townhall_clicked()
+{
+    if ((townhall.getWorkrers() >= townhall.getNeedWorkrers()) && (tempCash >= townhall.getPriceWorkersHouse()))
+    {
+        int town = 0;
+
+        town = townhall.getWorkrersHouse() + 1;
+        townhall.setWorkersHouse(town);
+
+        tempCash-= townhall.getPriceWorkersHouse();
+
+        townhall.setNeedWorkers(qPow(10, townhall.getWorkrersHouse()));
+        townhall.calculatingPriceHouse();
+        show_Price_Townhall();
+        show_Cash();
+    }
+}
+
+void MainWindow::show_Price_Townhall()
+{
+    ui->label_mayor->setText(QString::number(townhall.getWorkrers()));
+    ui->label_townhall->setText(QString::number(townhall.getWorkrersHouse()));
+    ui->pushButton_mayor->setText(QString("Hire: $") + QString::number(townhall.getPriceWorkers()));
+    ui->pushButton_mayor_MAX->setText(QString("$") + QString::number((townhall.getNeedWorkrers() - townhall.getWorkrers()) * townhall.getPriceWorkers()));
+    ui->pushButton_townhall->setText(QString("Buy: $") + QString::number(townhall.getPriceWorkersHouse()));
+}
+
+void MainWindow::on_pushButton_mayor_MAX_clicked()
+{
+    if ((townhall.getWorkrersHouse() > 0) &&
+            ((townhall.getNeedWorkrers() - townhall.getWorkrers()) * townhall.getPriceWorkers() <= tempCash))
+    {
+        townhall.setWorkers(townhall.getNeedWorkrers());
+        tempCash-= (townhall.getNeedWorkrers() - townhall.getWorkrers()) * townhall.getPriceWorkers();
+        show_Price_Townhall();
+        show_Cash();
+    }
+}
+
 //========================================market=========================================================
 
 void MainWindow::on_pushButton_marketeer_clicked()
 {
     if ((market.getWorkrersHouse() > 0) && (tempCash >= market.getPriceWorkers()))
     {
-        QString marketWorkersToShow;
         int marketeer = 0;
 
         marketeer = market.getWorkrers() + 1;
@@ -493,7 +517,6 @@ void MainWindow::on_pushButton_market_clicked()
 {
     if ((market.getWorkrers() >= market.getNeedWorkrers()) && (tempCash >= market.getPriceWorkersHouse()))
     {
-        QString marketToShow;
         int mart = 0;
 
         mart = market.getWorkrersHouse() + 1;
@@ -542,4 +565,3 @@ void MainWindow::on_pushButton_change_ectt_clicked()
 {
     nMapTown->change_ectt_mt();
 }
-

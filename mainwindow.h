@@ -26,6 +26,7 @@ private:
     void show_Price_Stable();
     void show_Price_Market();
     void show_Price_Mine();
+    void show_Price_Townhall();
 
     void calc_Time_Absence(int, int, int, int, int, int);
     void calc_Cash_Absence(qint64);
@@ -42,19 +43,22 @@ private slots:
     void on_pushButton_fermersHouse_clicked();
     void on_pushButton_horseman_clicked();
     void on_pushButton_stables_clicked();
-    void on_pushButton_marketeer_clicked();
-    void on_pushButton_market_clicked();
     void on_pushButton_mine_clicked();
     void on_pushButton_miner_clicked();
-
-    void on_pushButton_addMarketeer_clicked();
-
-    void on_pushButton_change_ectt_clicked();
+    void on_pushButton_mayor_clicked();
+    void on_pushButton_townhall_clicked();
+    void on_pushButton_marketeer_clicked();
+    void on_pushButton_market_clicked();
 
     void on_pushButton_fermers_MAX_clicked();
     void on_pushButton_horseman_MAX_clicked();
     void on_pushButton_miner_MAX_clicked();
+    void on_pushButton_mayor_MAX_clicked();
     void on_pushButton_marketeer_MAX_clicked();
+
+    void on_pushButton_addMarketeer_clicked();
+
+    void on_pushButton_change_ectt_clicked();
 
 private:
 
