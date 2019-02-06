@@ -25,6 +25,11 @@ public:
 
     void change_ectt_mt();
 
+    int check_ectt(int);
+    void set_ectt(int, int);
+    void change_pastAvailable(int);
+    int get_Bonus(int);
+
 private:
     bool is_moving_on_field(const QPointF&);
 

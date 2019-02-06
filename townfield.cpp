@@ -3,6 +3,10 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneHoverEvent>
 #include <QDebug>
+#include <QFile>
+#include <QCloseEvent>
+
+static QFile saves("saveCell.txt");
 
 townField::townField(/*int nLines, int nColumns, int nCellWidth*/)
 //                    : fLines(nLines), fColumns(nColumns), fCellWidth(nCellWidth)
@@ -14,6 +18,44 @@ townField::townField(/*int nLines, int nColumns, int nCellWidth*/)
     ediCell.resize(FNine + 1);
     init_cells();
     init_pix_cell();
+}
+
+/*void townField::closeEvent(QCloseEvent *eventCloseTF)         //start saving
+{
+    if(saves.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream writeStream(&saves);
+
+        for(int i = 1; i <= FNine; i++)
+        {
+            QString cttcellLoad;
+            cttcellLoad = (ecttCell[i] == eCellTownType::EMPTY) ? 0 : 1;
+            writeStream << cttcellLoad << endl;
+        }
+
+        saves.close();
+        eventCloseTF->accept();
+    }
+    else
+        eventCloseTF->ignore();
+} */                                                          //end saving
+
+int townField::checkECTTCell(int ind)
+{
+    int retInt = -1;
+    if (ecttCell[ind] == eCellTownType::EMPTY)
+        retInt = 0;
+    else
+        retInt = 1;
+        return retInt;
+}
+
+void townField::set_ECTT_from_load(int index, int value)
+{
+    if (value == 0)
+        ecttCell[index] =  eCellTownType::EMPTY;
+    else
+        ecttCell[index] =  eCellTownType::FULL;
 }
 
 QRectF townField::boundingRect() const
@@ -77,18 +119,7 @@ eCellTownType townField::getCellType(const QPointF &bPos)
 {
     QPointF pos = mapFromScene(bPos);
     int index = index_calculating(pos);
-
-//    int column = pos.x() / fCellWidth;
-//    int line = pos.y() / fCellWidth;
-
-//    if(line < fLines && column < fColumns)
-//    {
-//        column++;
-//        index = line * fColumns + column;
     return ecttCell[index];
-//    }
-//    else
-//        return ecttCell[index];
 }
 
 void townField::takeCell(QPointF aPos)
@@ -164,6 +195,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farm.width();
                     pixHeight = farm.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farm);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -171,6 +203,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farmActive.width();
                     pixHeight = farmActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farmActive);
+                    bonusCell[i] = 5;
                 }
                 break;
             }
@@ -185,6 +218,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stable.width();
                     pixHeight = stable.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stable);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -192,6 +226,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stableActive.width();
                     pixHeight = stableActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stableActive);
+                    bonusCell[i] = 2;
                 }
                 break;
             }
@@ -207,6 +242,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = market.width();
                     pixHeight = market.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, market);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -214,6 +250,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = marketActive.width();
                     pixHeight = marketActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, marketActive);
+                    bonusCell[i] = 5;
                 }
                 break;
             }
@@ -229,6 +266,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = market.width();
                     pixHeight = market.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, market);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -236,6 +274,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = marketActive.width();
                     pixHeight = marketActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, marketActive);
+                    bonusCell[i] = 2;
                 }
                 break;
             }
@@ -251,6 +290,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = hometown.width();
                     pixHeight = hometown.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, hometown);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -258,6 +298,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = hometownActive.width();
                     pixHeight = hometownActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, hometownActive);
+                    bonusCell[i] = 10;
                 }
                 break;
             }
@@ -273,6 +314,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stable.width();
                     pixHeight = stable.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stable);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -280,6 +322,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stableActive.width();
                     pixHeight = stableActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stableActive);
+                    bonusCell[i] = 5;
                 }
                 break;
             }
@@ -295,6 +338,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mine.width();
                     pixHeight = mine.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mine);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -302,6 +346,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mineActive.width();
                     pixHeight = mineActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mineActive);
+                    bonusCell[i] = 5;
                 }
                 break;
             }
@@ -317,6 +362,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farm.width();
                     pixHeight = farm.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farm);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -324,6 +370,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farmActive.width();
                     pixHeight = farmActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farmActive);
+                    bonusCell[i] = 2;
                 }
                 break;
             }
@@ -339,6 +386,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mine.width();
                     pixHeight = mine.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mine);
+                    bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -346,12 +394,11 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mineActive.width();
                     pixHeight = mineActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mineActive);
+                    bonusCell[i] = 2;
                 }
                 break;
             }
-
         }
-
     }
 }
 
@@ -469,4 +516,10 @@ void townField::update_field()
 QPointF townField::get_field_posPressEvent()
 {
     return posPressEvent;
+}
+
+int townField::getBonus(int index)
+{
+    int retBonus = bonusCell[index];
+    return retBonus;
 }

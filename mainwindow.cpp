@@ -15,20 +15,26 @@ static FarmingSlot stable(100, 1000, 3);
 static FarmingSlot mine(1000, 10000, 4);
 static FarmingSlot townhall(10000, 1000000, 5);
 static FarmingSlot market(100000, 10000000, 6);
-QFile saves("save.txt");
+static QFile saves("save.txt");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    nMapTown = new mapTown();
+    ui->gridLayout_mapTown->addWidget(nMapTown);
+
                                    //start loading saves
     if(saves.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0;
-        QString readCashStr = saves.readLine();
+        QString readCashStr = saves.readLine(), readCoAvMaStr = saves.readLine();
 
         tempCash = readCashStr.toUInt();
+        countAvailableMarket = readCoAvMaStr.toInt();
+        nMapTown->change_pastAvailable(countAvailableMarket);
 
         QString readWorkStr = saves.readLine();
         QString readWorkHouseStr = saves.readLine();
@@ -80,6 +86,18 @@ MainWindow::MainWindow(QWidget *parent) :
         lastTime = saves.readLine();
         second = lastTime.toInt();
 
+        QString readTownTypeCell= saves.readLine();
+
+        for(int i = 1; i <= 9; i++)
+        {
+            if(readTownTypeCell.toInt() == 0)
+                nMapTown->set_ectt(i, 0);
+            else
+                nMapTown->set_ectt(i, 1);
+
+            readTownTypeCell= saves.readLine();
+        }
+
         calc_Time_Absence(year, month, day, hour, minute, second);
 
         qDebug() << "Cash is loaded from save";
@@ -87,11 +105,10 @@ MainWindow::MainWindow(QWidget *parent) :
         show_All_Price();
         set_need_Workers();
 
-        saves.close();
+        saves.close();  
     }                              //end loading saves
 
-    nMapTown = new mapTown();
-    ui->gridLayout_mapTown->addWidget(nMapTown);
+
 
 
     QTimer *timerCalcCash = new QTimer(this);
@@ -118,43 +135,50 @@ void MainWindow::closeEvent(QCloseEvent *eventClose)
 {                                                       //start saving
     if(saves.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-    QDate nowDate(QDate::currentDate());
-    QTime nowTime(QTime::currentTime());
+        QDate nowDate(QDate::currentDate());
+        QTime nowTime(QTime::currentTime());
 
-    QTextStream writeStream(&saves);
-    writeStream << QString::number(tempCash) << endl;
+        QTextStream writeStream(&saves);
+        writeStream << QString::number(tempCash) << endl;
+        writeStream << QString::number(countAvailableMarket) << endl;
 
-    writeStream << QString::number(farm.getWorkrers()) << endl;
-    writeStream << QString::number(farm.getWorkrersHouse()) << endl;
-    writeStream << QString::number(farm.getPriceWorkersHouse()) << endl;
+        writeStream << QString::number(farm.getWorkrers()) << endl;
+        writeStream << QString::number(farm.getWorkrersHouse()) << endl;
+        writeStream << QString::number(farm.getPriceWorkersHouse()) << endl;
 
-    writeStream << QString::number(stable.getWorkrers()) << endl;
-    writeStream << QString::number(stable.getWorkrersHouse()) << endl;
-    writeStream << QString::number(stable.getPriceWorkersHouse()) << endl;
+        writeStream << QString::number(stable.getWorkrers()) << endl;
+        writeStream << QString::number(stable.getWorkrersHouse()) << endl;
+        writeStream << QString::number(stable.getPriceWorkersHouse()) << endl;
 
-    writeStream << QString::number(mine.getWorkrers()) << endl;
-    writeStream << QString::number(mine.getWorkrersHouse()) << endl;
-    writeStream << QString::number(mine.getPriceWorkersHouse()) << endl;
+        writeStream << QString::number(mine.getWorkrers()) << endl;
+        writeStream << QString::number(mine.getWorkrersHouse()) << endl;
+        writeStream << QString::number(mine.getPriceWorkersHouse()) << endl;
 
-    writeStream << QString::number(townhall.getWorkrers()) << endl;
-    writeStream << QString::number(townhall.getWorkrersHouse()) << endl;
-    writeStream << QString::number(townhall.getPriceWorkersHouse()) << endl;
+        writeStream << QString::number(townhall.getWorkrers()) << endl;
+        writeStream << QString::number(townhall.getWorkrersHouse()) << endl;
+        writeStream << QString::number(townhall.getPriceWorkersHouse()) << endl;
 
-    writeStream << QString::number(market.getWorkrers()) << endl;
-    writeStream << QString::number(market.getWorkrersHouse()) << endl;
-    writeStream << QString::number(market.getPriceWorkersHouse()) << endl;
+        writeStream << QString::number(market.getWorkrers()) << endl;
+        writeStream << QString::number(market.getWorkrersHouse()) << endl;
+        writeStream << QString::number(market.getPriceWorkersHouse()) << endl;
 
-    writeStream << nowDate.toString("yyyy") << endl;
-    writeStream << nowDate.toString("M") << endl;
-    writeStream << nowDate.toString("d") << endl;
+        writeStream << nowDate.toString("yyyy") << endl;
+        writeStream << nowDate.toString("M") << endl;
+        writeStream << nowDate.toString("d") << endl;
 
-    writeStream << nowTime.toString("H") << endl;
-    writeStream << nowTime.toString("m") << endl;
-    writeStream << nowTime.toString("s") << endl;
+        writeStream << nowTime.toString("H") << endl;
+        writeStream << nowTime.toString("m") << endl;
+        writeStream << nowTime.toString("s") << endl;
 
-    saves.close();
+        QString cttcellSave;
+        for(int i = 1; i <= 9; i++)
+        {
+            cttcellSave = QString::number(nMapTown->check_ectt(i));
+            writeStream << cttcellSave << endl;
+        }
+        saves.close();
 
-    eventClose->accept();
+        eventClose->accept();
     }
     else                                                //end saving
         eventClose->ignore();
@@ -189,13 +213,14 @@ void MainWindow::calc_Cash_Absence(qint64 difTime)
 {
     int rateCashInSec = 0;
 
-    rateCashInSec = farm.calculateCash() + stable.calculateCash() + mine.calculateCash() + townhall.calculateCash()
-            + market.calculateCash() ;
+    rateCashInSec = farm.calculateCash() * nMapTown->get_Bonus(1) + stable.calculateCash() * nMapTown->get_Bonus(6)
+            + mine.calculateCash() * nMapTown->get_Bonus(7) + townhall.calculateCash() * nMapTown->get_Bonus(5)
+            + market.calculateCash() * nMapTown->get_Bonus(3);
     rateCashInSec*= difTime;
     tempCash+= rateCashInSec;
 
-     qDebug() << "Difference time is " << difTime;
-     qDebug() << "Difference cash is " << rateCashInSec;
+    qDebug() << "Difference time is " << difTime;
+    qDebug() << "Difference cash is " << rateCashInSec;
 
 }
 
@@ -203,10 +228,12 @@ void MainWindow::calculate_Cash()
 {
     int cashInSec = 0;
 
-    cashInSec = farm.calculateCash() + stable.calculateCash() + mine.calculateCash()+ townhall.calculateCash()
-            + market.calculateCash();
+    cashInSec = farm.calculateCash() * nMapTown->get_Bonus(1) + stable.calculateCash() * nMapTown->get_Bonus(6)
+            + mine.calculateCash() * nMapTown->get_Bonus(7) + townhall.calculateCash() * nMapTown->get_Bonus(5)
+            + market.calculateCash() * nMapTown->get_Bonus(3);
     tempCash+= cashInSec;
 
+    qDebug() << "Farm bonus is " << nMapTown->get_Bonus(1);
 }
 
 void MainWindow::show_Cash()
@@ -261,9 +288,9 @@ void MainWindow::set_need_Workers()         //функция предупреж�
 
 void MainWindow::change_data_scene_map_Town()
 {
-    countAvailableMarketeer+= 1;
+    countAvailableMarket+= 1;
 
-    nMapTown->change_available_icn_marketeer(countAvailableMarketeer);
+    nMapTown->change_available_icn_marketeer(countAvailableMarket);
 }
 
 //========================================farm=========================================================
@@ -555,13 +582,13 @@ void MainWindow::on_pushButton_marketeer_MAX_clicked()
 
 //=======================================================================================================
 
-void MainWindow::on_pushButton_addMarketeer_clicked()
+void MainWindow::on_pushButton_addMarketeer_clicked()       //test function
 {
     change_data_scene_map_Town();
-    ui->pushButton_addMarketeer->setText(QString::number(countAvailableMarketeer));
+    ui->pushButton_addMarketeer->setText(QString::number(countAvailableMarket));
 }
 
-void MainWindow::on_pushButton_change_ectt_clicked()
+void MainWindow::on_pushButton_change_ectt_clicked()        //test function
 {
     nMapTown->change_ectt_mt();
 }

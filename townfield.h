@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QVector>
 #include <QPixmap>
+#include <QMainWindow>
 #include "common.h"
 
 class townField : public QGraphicsItem
@@ -43,6 +44,10 @@ public:
 
     QPointF get_field_posPressEvent();
 
+    int checkECTTCell(int);
+    void set_ECTT_from_load(int, int);
+    int getBonus(int);
+
 signals:
     void fieldMousePressEvent();
 
@@ -64,12 +69,16 @@ protected:
     int pixWidth{0};
     int pixHeight{0};
 
+    //float farmBonusGold = 0, stableBonusGold = 0, BonusGold = 0, farmBonusGold = 0, farmBonusGold = 0;
+    //float cellBonusProduct = 0;
+
     QPointF fMousePos;
     QRectF fBoundingSceneRect;
     QPixmap hometown, hometownActive, farm, farmActive, market, marketActive;
     QPixmap cell, cellActive, mine, mineActive, stable, stableActive;
     QPointF posPressEvent;
 
+    int bonusCell[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     eCellTownType *ecttCell = new eCellTownType[FNine];
     QVector<eCellInfo> ediCell;
 

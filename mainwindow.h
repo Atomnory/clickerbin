@@ -67,7 +67,7 @@ private:
     mapTown *nMapTown;
 
     unsigned long int tempCash = 120;
-    int countAvailableMarketeer = 0;
+    int countAvailableMarket = 0;
 
 };
 

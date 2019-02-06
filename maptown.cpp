@@ -36,7 +36,6 @@ void mapTown::change_available_icn_marketeer(int nMarketeer)
     }
     else
         return;
-
 }
 
 void mapTown::init_icon()
@@ -57,7 +56,7 @@ void mapTown::show_all_items()
 {
     nField.show();
 
-    for(int i = 0; i < availableMarketeer ; i++)
+    for(int i = pastAvailableMarketeer; i < availableMarketeer ; i++)
     {
         marketIcon[i].show();
     }
@@ -102,4 +101,25 @@ void mapTown::move_from_space_to_field(QPointF aPos)
 {
     nField.set_field(aPos);
     nField.update_field();
+}
+
+int mapTown::check_ectt(int ind)
+{
+    return nField.checkECTTCell(ind);
+}
+
+void mapTown::set_ectt(int ind, int val)
+{
+    nField.set_ECTT_from_load(ind, val);
+}
+
+void mapTown::change_pastAvailable(int pam)
+{
+    pastAvailableMarketeer = pam;
+    availableMarketeer = pam;
+}
+
+int mapTown::get_Bonus(int ind)
+{
+    return nField.getBonus(ind);
 }
