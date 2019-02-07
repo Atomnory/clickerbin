@@ -233,7 +233,7 @@ void MainWindow::calculate_Cash()
             + market.calculateCash() * nMapTown->get_Bonus(3);
     tempCash+= cashInSec;
 
-    qDebug() << "Farm bonus is " << nMapTown->get_Bonus(1);
+    //qDebug() << "Farm bonus is " << nMapTown->get_Bonus(1);
 }
 
 void MainWindow::show_Cash()

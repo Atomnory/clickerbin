@@ -195,7 +195,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farm.width();
                     pixHeight = farm.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farm);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -203,7 +203,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farmActive.width();
                     pixHeight = farmActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farmActive);
-                    bonusCell[i] = 5;
+                    //bonusCell[i] = 5;
                 }
                 break;
             }
@@ -218,7 +218,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stable.width();
                     pixHeight = stable.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stable);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -226,7 +226,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stableActive.width();
                     pixHeight = stableActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stableActive);
-                    bonusCell[i] = 2;
+                    //bonusCell[i] = 2;
                 }
                 break;
             }
@@ -242,7 +242,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = market.width();
                     pixHeight = market.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, market);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -250,7 +250,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = marketActive.width();
                     pixHeight = marketActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, marketActive);
-                    bonusCell[i] = 5;
+                    //bonusCell[i] = 5;
                 }
                 break;
             }
@@ -266,7 +266,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = market.width();
                     pixHeight = market.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, market);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -274,7 +274,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = marketActive.width();
                     pixHeight = marketActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, marketActive);
-                    bonusCell[i] = 2;
+                    //bonusCell[i] = 2;
                 }
                 break;
             }
@@ -290,7 +290,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = hometown.width();
                     pixHeight = hometown.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, hometown);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -298,7 +298,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = hometownActive.width();
                     pixHeight = hometownActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, hometownActive);
-                    bonusCell[i] = 10;
+                    //bonusCell[i] = 10;
                 }
                 break;
             }
@@ -314,7 +314,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stable.width();
                     pixHeight = stable.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stable);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -322,7 +322,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = stableActive.width();
                     pixHeight = stableActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, stableActive);
-                    bonusCell[i] = 5;
+                    //bonusCell[i] = 5;
                 }
                 break;
             }
@@ -338,7 +338,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mine.width();
                     pixHeight = mine.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mine);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -346,7 +346,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mineActive.width();
                     pixHeight = mineActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mineActive);
-                    bonusCell[i] = 5;
+                    //bonusCell[i] = 5;
                 }
                 break;
             }
@@ -362,7 +362,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farm.width();
                     pixHeight = farm.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farm);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -370,7 +370,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = farmActive.width();
                     pixHeight = farmActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, farmActive);
-                    bonusCell[i] = 2;
+                    //bonusCell[i] = 2;
                 }
                 break;
             }
@@ -386,7 +386,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mine.width();
                     pixHeight = mine.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mine);
-                    bonusCell[i] = 1;
+                    //bonusCell[i] = 1;
                 }
 
                 else if(ecttCell[i] == eCellTownType::FULL)
@@ -394,7 +394,7 @@ void townField::draw_cells(QPainter *painter)       // рисует картин
                     pixWidth = mineActive.width();
                     pixHeight = mineActive.height();
                     painter->drawPixmap(x + FSpacer, y + FSpacer, pixWidth, pixHeight, mineActive);
-                    bonusCell[i] = 2;
+                    //bonusCell[i] = 2;
                 }
                 break;
             }
@@ -519,7 +519,103 @@ QPointF townField::get_field_posPressEvent()
 }
 
 int townField::getBonus(int index)
-{
+{  
+    switch (ediCell[index])
+    {
+        case eCellInfo::Unknown:
+        {
+            break;
+        }
+        case eCellInfo::CELL_1:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 5;
+
+            break;
+        }
+        case eCellInfo::CELL_2:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 2;
+
+            break;
+        }
+
+        case eCellInfo::CELL_3:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 5;
+
+            break;
+        }
+
+        case eCellInfo::CELL_4:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 2;
+
+            break;
+        }
+
+        case eCellInfo::CELL_5:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 10;
+
+            break;
+        }
+
+        case eCellInfo::CELL_6:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 5;
+
+            break;
+        }
+
+        case eCellInfo::CELL_7:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 5;
+
+            break;
+        }
+
+        case eCellInfo::CELL_8:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 2;
+
+            break;
+        }
+
+        case eCellInfo::CELL_9:
+        {
+            if(ecttCell[index] == eCellTownType::EMPTY)
+                bonusCell[index] = 1;
+            else if(ecttCell[index] == eCellTownType::FULL)
+                bonusCell[index] = 2;
+
+            break;
+        }
+    }
+
     int retBonus = bonusCell[index];
     return retBonus;
 }
