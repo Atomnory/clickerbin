@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "pausedialog.h"
+#include "pausewidget.h"
 #include <QCoreApplication>
 #include <QTimer>
 #include <QtMath>
@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     nMapTown = new mapTown();
     ui->gridLayout_mapTown->addWidget(nMapTown);
+
 
                                    //start loading saves
     if(saves.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -131,6 +132,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+int MainWindow::getAbsCash()
+{
+    return absCash;
+}
+
+qint64 MainWindow::getAbsTime()
+{
+    return absTime;
+}
+
 void MainWindow::closeEvent(QCloseEvent *eventClose)
 {                                                       //start saving
     if(saves.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -219,9 +230,11 @@ void MainWindow::calc_Cash_Absence(qint64 difTime)
     rateCashInSec*= difTime;
     tempCash+= rateCashInSec;
 
+    absCash = rateCashInSec;
+    absTime = difTime;
+
     qDebug() << "Difference time is " << difTime;
     qDebug() << "Difference cash is " << rateCashInSec;
-
 }
 
 void MainWindow::calculate_Cash()
@@ -588,7 +601,7 @@ void MainWindow::on_pushButton_addMarketeer_clicked()       //test function
     ui->pushButton_addMarketeer->setText(QString::number(countAvailableMarket));
 }
 
-void MainWindow::on_pushButton_change_ectt_clicked()        //test function
+/*void MainWindow::on_pushButton_change_ectt_clicked()        //test function
 {
     nMapTown->change_ectt_mt();
-}
+}*/

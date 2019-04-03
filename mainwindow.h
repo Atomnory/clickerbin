@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    int getAbsCash();
+    qint64 getAbsTime();
+
 private:
     void closeEvent(QCloseEvent *eventClose);
 
@@ -58,7 +61,7 @@ private slots:
 
     void on_pushButton_addMarketeer_clicked();
 
-    void on_pushButton_change_ectt_clicked();
+   // void on_pushButton_change_ectt_clicked();
 
 private:
 
@@ -68,6 +71,9 @@ private:
 
     unsigned long int tempCash = 120;
     int countAvailableMarket = 0;
+
+    int absCash = 0;
+    qint64 absTime = 0;
 
 };
 

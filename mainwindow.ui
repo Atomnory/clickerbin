@@ -996,6 +996,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_change_ectt">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>660</x>

@@ -28,25 +28,25 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     farmingslot.cpp \
-    pausedialog.cpp \
     maptown.cpp \
     iconmaptown.cpp \
     townfield.cpp \
-    dragdropinfo.cpp
+    dragdropinfo.cpp \
+    pausewidget.cpp
 
 HEADERS += \
         mainwindow.h \
     farmingslot.h \
-    pausedialog.h \
     maptown.h \
     common.h \
     iconmaptown.h \
     townfield.h \
-    dragdropinfo.h
+    dragdropinfo.h \
+    pausewidget.h
 
 FORMS += \
         mainwindow.ui \
-    pausedialog.ui
+    pausewidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
